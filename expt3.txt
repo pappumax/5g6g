@@ -1,0 +1,70 @@
+clc;
+clear;
+
+// Given Parameters
+total_population = 2000000;     // Urban population = 2 Million
+lambda = 2;                     // Average call arrival rate (calls/hr)
+H = 3 / 60;                     // Average call duration in hours (3 minutes)
+
+Au = lambda * H;                // Traffic intensity per user = 0.1 Erlangs
+Pb = 0.02;                      // Grade of Service (2% blocking probability)
+
+// Cellular System Data
+cells = [394, 98, 49];
+channels = [19, 57, 100];
+
+// Traffic 'A' obtained from Erlang B table for Pb = 2%
+traffic_A = [12, 45, 88];       // Erlangs per cell
+
+system_names = ["System A", "System B", "System C"];
+
+// Initialize arrays
+users_per_cell = zeros(1, 3);
+total_users = zeros(1, 3);
+penetration = zeros(1, 3);
+
+// Calculations
+for i = 1:3
+
+    // Subscribers supported per cell
+    users_per_cell(i) = traffic_A(i) / Au;
+
+    // Total subscribers supported by the system
+    total_users(i) = users_per_cell(i) * cells(i);
+
+    // Market penetration of each system
+    penetration(i) = (total_users(i) / total_population) * 100;
+
+end
+
+// Total subscribers supported by all 3 systems
+combined_users = sum(total_users);
+
+// Total market penetration of all 3 systems
+combined_penetration = (combined_users / total_population) * 100;
+
+// Display Results
+mprintf("==========================================================\n");
+mprintf("               CELLULAR NETWORK CAPACITY REPORT           \n");
+mprintf("==========================================================\n");
+
+mprintf("Traffic intensity per user (Au)  : %.2f Erlangs\n", Au);
+mprintf("Grade of Service (Blocking Pb)   : %.0f%%\n\n", Pb * 100);
+
+for i = 1:3
+
+    mprintf("%s:\n", system_names(i));
+    mprintf("  * Channels/Cell        : %d\n", channels(i));
+    mprintf("  * Total Cells          : %d\n", cells(i));
+    mprintf("  * Traffic/Cell         : %.1f Erlangs\n", traffic_A(i));
+    mprintf("  * Users per Cell       : %.0f\n", users_per_cell(i));
+    mprintf("  * Total Subscribers    : %.0f\n", total_users(i));
+    mprintf("  * Market Penetration   : %.3f%%\n\n", penetration(i));
+
+end
+
+// Combined Results
+mprintf("----------------------------------------------------------\n");
+mprintf("Combined Total Users Supported : %.0f\n", combined_users);
+mprintf("Combined Market Penetration    : %.3f%%\n", combined_penetration);
+mprintf("==========================================================\n");

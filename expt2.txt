@@ -1,0 +1,109 @@
+// Given parameters
+total_BW = 60;          // Total bandwidth in MHz
+channel_BW = 25;        // Channel bandwidth in kHz
+cell_radius = 2.15;     // Cell radius in km
+system_area = 4200;     // Total service area in km^2
+
+// Convert total bandwidth into kHz
+total_BW_kHz = total_BW * 1000;
+
+// Since FDD requires two simplex channels
+duplex_BW = 2 * channel_BW;
+
+// 1. Total number of available channels
+total_channels = total_BW_kHz / duplex_BW;
+
+disp("TOTAL AVAILABLE CHANNELS = ");
+disp(total_channels);
+
+//
+// ==========================================
+// FOR CLUSTER SIZE N = 7
+// ==========================================
+//
+
+N1 = 7;
+
+// 2. Area of one hexagonal cell
+area_cell = (3 * sqrt(3) / 2) * cell_radius^2;
+
+disp("AREA OF ONE CELL (km^2) = ");
+disp(area_cell);
+
+// Area of cluster
+area_cluster1 = N1 * area_cell;
+
+disp("AREA OF CLUSTER FOR N = 7 (km^2) = ");
+disp(area_cluster1);
+
+// 3. Number of clusters
+number_clusters1 = system_area / area_cluster1;
+
+disp("NUMBER OF CLUSTERS FOR N = 7 = ");
+disp(number_clusters1);
+
+// 4. Cell capacity
+cell_capacity1 = total_channels / N1;
+
+disp("CELL CAPACITY FOR N = 7 = ");
+disp(cell_capacity1);
+
+// 5. System capacity
+system_capacity1 = total_channels * number_clusters1;
+
+disp("SYSTEM CAPACITY FOR N = 7 = ");
+disp(system_capacity1);
+
+//
+// ==========================================
+// FOR CLUSTER SIZE N = 4
+// ==========================================
+//
+
+N2 = 4;
+
+// Area of cluster
+area_cluster2 = N2 * area_cell;
+
+disp("AREA OF CLUSTER FOR N = 4 (km^2) = ");
+disp(area_cluster2);
+
+// Number of clusters
+number_clusters2 = system_area / area_cluster2;
+
+disp("NUMBER OF CLUSTERS FOR N = 4 = ");
+disp(number_clusters2);
+
+// Cell capacity
+cell_capacity2 = total_channels / N2;
+
+disp("CELL CAPACITY FOR N = 4 = ");
+disp(cell_capacity2);
+
+// System capacity
+system_capacity2 = total_channels * number_clusters2;
+
+disp("SYSTEM CAPACITY FOR N = 4 = ");
+disp(system_capacity2);
+
+//
+// ==========================================
+// COMPARISON
+// ==========================================
+//
+
+disp("==========================================");
+disp("COMPARISON");
+disp("==========================================");
+
+disp("System Capacity for N = 7:");
+disp(system_capacity1);
+
+disp("System Capacity for N = 4:");
+disp(system_capacity2);
+
+if system_capacity2 > system_capacity1 then
+    disp("Reducing cluster size from 7 to 4 INCREASES system capacity.");
+else
+    disp("Reducing cluster size from 7 to 4 DECREASES system capacity.");
+end

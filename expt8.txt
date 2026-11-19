@@ -1,0 +1,10 @@
+figure;
+subplot(2,1,1);
+plot(abs(waveStruct1.waveform(1:500)));
+title('Time-Domain Envelope(Cyclic Prefix View)');
+subplot(2,1,2);
+pwelch(waveStruct.waveform, [], [], [], 15e3, 'centered');
+title('Power Spectral Density');
+%(only for constellation diagram)
+scatterplot(waveStruct1.waveform);
+title('constellation diagram');
